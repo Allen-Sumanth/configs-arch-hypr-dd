@@ -1,0 +1,17 @@
+  lua
+    configs
+  │ │  conform.lua
+  │ │  lazy.lua
+  │ │  lspconfig.lua
+  │ └  null-ls.lua
+    plugins
+  │ └  init.lua
+  │  chadrc.lua
+  │  mappings.lua
+  └  options.lua
+   .stylua.toml
+   init.lua
+   lazy-lock.json
+   LICENSE
+  󰈚 NvimTree_1
+  󰂺 README.md

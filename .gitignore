@@ -1,0 +1,16 @@
+# Ignore everything
+**
+
+# Un-ignore specific directories and their contents
+!hypr/
+!hypr/**
+!nvim/
+!nvim/**
+!kitty/
+!kitty/**
+!hyprpanel/
+!hyprpanel/**
+!rofi/
+!rofi/**
+
+!/.gitignore
