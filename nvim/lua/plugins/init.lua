@@ -1,5 +1,6 @@
 return {
   { "nvim-neotest/nvim-nio" },
+
   {
     "rcarriga/nvim-dap-ui",
     event = "VeryLazy",
@@ -33,6 +34,7 @@ return {
       handlers = {}
     },
   },
+
   {
     "mfussenegger/nvim-dap",
     config = function(_, _)
@@ -40,12 +42,22 @@ return {
     end
   },
   {
+    "L3MON4D3/LuaSnip",
+    dependencies = { "rafamadriz/friendly-snippets" },
+    config = function()
+      require("luasnip.loaders.from_lua").lazy_load({
+        paths = "~/.config/nvim/snippets/"
+        -- paths = { vim.fn.stdpath("config") .. "/snippets/" }
+      })
+    end,
+    event = "InsertEnter",
+  },
+  {
     "stevearc/conform.nvim",
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -53,19 +65,57 @@ return {
     end,
   },
   {
+    "nvim-cmp", -- Ensure nvim-cmp is loaded
+    config = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "cpp", "c", "hpp", "h" },
+        callback = function()
+          require("cmp").setup.buffer { enabled = false }
+        end,
+      })
+    end,
+  },
+  {
     "nvimtools/none-ls.nvim",
-    event="VeryLazy",
+    event = "VeryLazy",
+    dependencies = {
+      "nvimtools/none-ls-extras.nvim",
+    },
+    opts = function()
+      local null_ls = require("null-ls")
+      return {
+        sources = {
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.prettier,
+          -- For external built-ins from none-ls-extras:
+          require("none-ls.diagnostics.eslint_d"),
+          -- require("none-ls.diagnostics.flake8"), -- example for flake8
+        }
+      }
+    end,
+  },
+
+  -- {
+  --   "nvimtools/none-ls.nvim",
+  --   event="VeryLazy",
+  --   opts = function ()
+  --     return require "configs.null-ls"
+  --   end,
+  -- },
+  --
+
+  {
+    "kawre/leetcode.nvim",
+    lazy = false,
+    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+    dependencies = {
+        "nvim-telescope/telescope.nvim",
+        -- "ibhagwan/fzf-lua",
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+    },
     opts = function ()
-      return require "configs.null-ls"
+      return require "configs.leetcode"
     end,
   }
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
 }
