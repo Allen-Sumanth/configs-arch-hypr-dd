@@ -29,6 +29,26 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+  pattern = "input.txt",
+  callback = function()
+    vim.cmd("silent! write")
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "output.txt",
+  callback = function()
+    vim.cmd("checktime")
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold" }, {
+  pattern = "output.txt",
+  callback = function()
+    vim.cmd("checktime")
+  end,
+})
 require "options"
 require "nvchad.autocmds"
 
